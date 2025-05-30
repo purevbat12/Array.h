@@ -1,6 +1,6 @@
 #ifndef defSort
 #define defSort
-#include "../array/array.h"
+#include <array.h> 
 void BSort(void *arr, char *dataStruct){
 	if(!strcmp(dataStruct, "array")){
 		array *a = (array*)arr;
