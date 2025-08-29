@@ -638,6 +638,7 @@
 					break;
 				}
 			}
+			bool leaveAfter = false;
 			while(true){
 				emptyArr(temporaryRecord);
 				temp2 = temp1;
@@ -648,35 +649,29 @@
 						printf("temp2->dimension == 1\n");
 						index--;
 						printArr(recordOfIndices, "Before the change to recordOfIndices.\n\n");
-						bool differenceIsOne = false, hasGoneThroughFirstIfCondition = false;
-						if(temporaryRecord->size > 1){
-							size_t count = 0;
-							for(size_t a = 0; a < temporaryRecord->size - 1; a++){
-								if(abs(*(int*)at(temporaryRecord, a) - *(int*)at(temporaryRecord, a + 1)) == 1){
-									count++;
+						if(!leaveAfter){	
+							if(temp3->size - 1 == *(int*)at(recordOfIndices, index)){
+								assign(recordOfIndices, 1, i(0), recordOfIndices->size - 1);
+								assign(recordOfIndices, 1, i(*(int*)at(recordOfIndices, recordOfIndices->size - 2) + 1), recordOfIndices->size - 2);
+							}
+							else{
+								assign(recordOfIndices, 1, i(*(int*)at(recordOfIndices, index) + 1), recordOfIndices->size - 1);
+							}
+							for(size_t i = 1; i < temporaryRecord->size; i++){
+								if(*(int*)at(temporaryRecord, i) == *(int*)at(recordOfIndices, i) - 1){
+									size_t elemSize = sizeOfElement(arr->format);
+									void *tempIndex = NULL;
+									tempIndex = malloc(elemSize);
+									if(tempIndex == NULL){
+										printf("Memory allocation failed!\n");
+										return NULL;
+									}
+									memcpy(tempIndex, at(recordOfIndices, i - 1), elemSize);
+									fill(recordOfIndices, i(0));
+									assign(recordOfIndices, 1, i(*(int*)tempIndex + 1), i - 1);
+									break;
 								}
 							}
-							if(count == temporaryRecord->size - 1){
-								differenceIsOne = true;
-							}
-						}
-						if(temp3->size - 1 == *(int*)at(recordOfIndices, index)){
-							assign(recordOfIndices, 1, i(0), recordOfIndices->size - 1);
-							assign(recordOfIndices, 1, i(*(int*)at(recordOfIndices, recordOfIndices->size - 2) + 1), recordOfIndices->size - 2);
-							hasGoneThroughFirstIfCondition = true;
-							printf("has gone through the first if conditional so it is true!\n\n");
-						}
-						if(temporaryRecord->size != 0 && (temporaryRecord->size > 1 && differenceIsOne)){
-							printf("in the second conditional.\n");
-							for(size_t a = (size_t)*((int*)at(temporaryRecord, 0)); a < temporaryRecord->size; a++){
-								assign(recordOfIndices, 1, i(0), a);
-							}
-							assign(recordOfIndices, 1, i(*(int*)at(recordOfIndices, (size_t)*(int*)at(temporaryRecord, 0)) + 1), (size_t)*(int*)at(temporaryRecord, 0) - 1);
-							
-						}
-						else if(!hasGoneThroughFirstIfCondition){
-							printf("in the other else if conditional with %s.\n", hasGoneThroughFirstIfCondition ? "true" : "false");
-							assign(recordOfIndices, 1, i(*(int*)at(recordOfIndices, index) + 1), recordOfIndices->size - 1);
 						}
 						for(size_t b = 0; b < temp2->size; b++){
 							switch(temp->format){
@@ -721,15 +716,12 @@
 						temp2 = *((array**)at(temp2, *(int*)at(recordOfIndices, index)));
 						printArr(temp2, "After temp2");
 						printf("index = %d\t recordOfIndices[%d] = %d\ttemp3->size = %llu\n", index, index, *(int*)at(recordOfIndices, index), temp3->size);
-						printf("index != recordOfIndices->size - 1 <-> %d != %d <-> %d\trecordOfIndices[%d] == temp3->size - 1 <-> %d == %d <-> %d\n", index, recordOfIndices->size - 1, index != recordOfIndices->size - 1, index, *(int*)at(recordOfIndices, index), (int)temp3->size - 1, *(int*)at(recordOfIndices, index) == (int)temp3->size);
-						if((index != recordOfIndices->size - 1) && (*(int*)at(recordOfIndices, index) == temp3->size - 1)){
-							printf("%d == %llu\n\n\n\n\n\n\n\n\n\n\n\n\n\n", *(int*)at(recordOfIndices, index), temp3->size);
-							insertEnd(temporaryRecord, 1, i(index - 1));
-							printArr(temporaryRecord, "");
-						}
-						printArr(temporaryRecord, "");
+						insertEnd(temporaryRecord, 1, i(temp3->size - 1));
 						index++;
 					}
+				}
+				if(leaveAfter){
+					break;
 				}
 				for(size_t t = 0; t < finalIndices->size; t++){
 					if(*(int*)at(recordOfIndices, t) == *(int*)at(finalIndices, t)){
@@ -748,7 +740,7 @@
 					}
 				}
 				if(b == indicesCheck->size){
-					break;
+					leaveAfter = true;
 				}
 				else{
 					printf("Not all checked to be true. b = %llu\n", b);

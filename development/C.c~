@@ -58,7 +58,7 @@ int main(void){
 	cEnd(creation);
 	printRuntime(creation);
 	//printArr(XXX, "");
-	printArr(AA, "");
+	printArr(XXX, "");
 	printf("\n\nHere goes the flatten() function.\n\n");
 	array *flat = flatten(XXX);
 	printArr(flat, "");
