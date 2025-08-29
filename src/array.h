@@ -18,11 +18,17 @@
 		#define c(...) (&((char[]){__VA_ARGS__}))
 		#define s(...) ((char*[]){__VA_ARGS__})
 	#endif
+	#define a(...) ((array*[]){__VA_ARGS__})
 	#define intArr sizeof(int)
 	#define doubleArr sizeof(double)
 	#define string sizeof(char)
 	#define stringArr sizeof(char*)
 	#define boolArr sizeof(bool)
+	int *convertInt(array *arr);
+	double *convertDouble(array *arr);
+	char *convertChar(array *arr);
+	bool *convertBool(array *arr);
+	char **convertString(array *arr);
 	void emptyArr(array *arr);
 	void freeArr(array *arr);
 	void insertEnd(array *arr, size_t count, void *data);
@@ -437,5 +443,75 @@
 		free(arr->label);
 		free(arr);
 	}
-	#include "../sortingAlgorithms/sort.h"
+	int *convertInt(array *arr){
+		if(arr->format != 'i'){
+			printf("Wrong data type %c.\n", arr->format);
+			return;
+		}
+		size_t elemSize = sizeOfElement(arr->format);
+		int *a = malloc(arr->size * elemSize);
+		if(a == NULL){
+			printf("Memory allocation failed!\n Exit code 100.\nExiting...");
+			exit(100);
+		}
+		memcpy(a, arr->arr, arr->size * elemSize);
+		return a;
+	}
+	double *convertDouble(array *arr){
+		if(arr->format != 'f'){
+			printf("Wrong data type %c.\n", arr->format);
+			return;
+		}
+		size_t elemSize = sizeOfElement(arr->format);
+		double *a = malloc(arr->size * elemSize);
+		if(a == NULL){
+			printf("Memory allocation failed!\n Exit code 100.\nExiting...");
+			exit(100);
+		}
+		memcpy(a, arr->arr, arr->size * elemSize);
+		return a;
+	}
+	char *convertChar(array *arr){
+		if(arr->format != 'c'){
+			printf("Wrong data type %c.\n", arr->format);
+			return;
+		}
+		size_t elemSize = sizeOfElement(arr->format);
+		char *a = malloc(arr->size * elemSize);
+		if(a == NULL){
+			printf("Memory allocation failed!\n Exit code 100.\nExiting...");
+			exit(100);
+		}
+		memcpy(a, arr->arr, arr->size * elemSize);
+		return a;
+	}
+	bool *convertBool(array *arr){
+		if(arr->format != 'b'){
+			printf("Wrong data type %c.\n", arr->format);
+			return;
+		}
+		size_t elemSize = sizeOfElement(arr->format);
+		bool *a = malloc(arr->size * elemSize);
+		if(a == NULL){
+			printf("Memory allocation failed!\n Exit code 100.\nExiting...");
+			exit(100);
+		}
+		memcpy(a, arr->arr, arr->size * elemSize);
+		return a;
+	}
+	char **convertString(array *arr){
+		if(arr->format != 's'){	
+			printf("Wrong data type %c.\n", arr->format);
+			return;
+		}
+		size_t elemSize = sizeOfElement(arr->format);
+		char **a = malloc(arr->size * elemSize);
+		if(a == NULL){
+			printf("Memory allocation failed!\n Exit code 100.\nExiting...");
+			exit(100);
+		}
+		memcpy(a, arr->arr, arr->size * elemSize);
+		return a;
+	}
+	#include <sort.h>
 #endif
