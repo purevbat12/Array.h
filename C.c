@@ -7,6 +7,8 @@ int main(void){
 	printArr(testingArr, "Before sort.");
 	bubbleSort(testingArr, "array");
 	printArr(testingArr, "After sort.");
+	removeStartArr(testingArr, 1);
+	printArr(testingArr, "After removing element..");
 	cEnd(test);
 	printRuntime(test);
 	return 0;

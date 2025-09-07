@@ -61,7 +61,6 @@
 				printf("Memory allocation failed! Exit code 2.\nExiting...");
 				exit(2);
 			}
-			size_t minIndex = 0, maxIndex = 0;
 			for(size_t i = 0; i <= (a->size - 1) / 2; i++){
 				const int minIndex = minArr(a, i, a->size - i - 1);
 				memcpy(temp, atArr(a, i), elemSize);
@@ -462,7 +461,6 @@
 				printf("Cannot sort boolean array or multi dimensional array.\n");
 				return;
 			}
-			size_t elemSize = sizeOfElement(a->format);
 			createArr(firstPart, a->format, (a->size / 2) + (a->size % 2 ? 1 : 0), atArr(a, 0));
 			createArr(lastPart, a->format, a->size / 2, atArr(a, (a->size / 2) + (a->size % 2 ? 1 : 0)));
 			mergeSort(firstPart, "array");

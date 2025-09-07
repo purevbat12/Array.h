@@ -184,47 +184,10 @@
 		arr->size -= count;
 	}
 	void removeEndArr(array *arr, const size_t count){
-		if(count == 0){
-			return;
-		}
-		if(arr->size == 0){
-			printf("An empty array.\n");
-			return;
-		}
-		if(count > arr->size){
-			printf("Excessive count parameter.\n");
-			return;
-		}
-		const size_t elemSize = sizeOfElement(arr->format);
-		arr->arr = realloc(arr->arr, elemSize * (arr->size - count));
-		if(arr->arr == NULL && count != arr->size){
-			printf("Memory allocation failed! Exit code 7.\nExiting...");
-			exit(7);
-		}
-		arr->size -= count;
+		removeAtArr(arr, count, arr->size - 1);
 	}
 	void removeStartArr(array *arr, const size_t count){
-		if(count == 0){
-			return;
-		}
-		if(arr->size == 0){
-			printf("An empty array.\n");
-			return;
-		}
-		if(count > arr->size){
-			printf("Excessive count parameter.\n");
-			return;
-		}
-		const size_t elemSize = sizeOfElement(arr->format);
-		for(size_t i = 0; i < arr->size - count; i++){
-			memcpy(atArr(arr, i), atArr(arr, i + count), elemSize);
-		}
-		arr->arr = realloc(arr->arr, elemSize * (arr->size - count));
-		if(arr->arr == NULL && count != arr->size){
-			printf("Memory allocation failed! Exit code 8.\nExiting...");
-			exit(8);
-		}
-		arr->size -= count;
+		removeAtArr(arr, count, 0);
 	}
 	array *deepCopyArr(const array *data){
 		if(data == NULL){
